@@ -29,9 +29,7 @@ const val GET_AMPHIOBIANS = "android-basics-kotlin-unit-4-pathway-2-project-api.
 private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
 // TODO: Build a Retrofit object with the Moshi converter
-private val retrofit: Retrofit = Retrofit.Builder()
-    .baseUrl(BASE_URL)
-    .addConverterFactory(
+private val retrofit: Retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(
         MoshiConverterFactory(moshi)
     ).build()
 )
