@@ -19,6 +19,8 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
+import retrofit2.http.GET
 
 
 // TODO: Create a property for the base URL provided in the codelab
@@ -29,14 +31,21 @@ const val GET_AMPHIOBIANS = "android-basics-kotlin-unit-4-pathway-2-project-api.
 private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
 // TODO: Build a Retrofit object with the Moshi converter
-private val retrofit: Retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(
-        MoshiConverterFactory(moshi)
-    ).build()
-)
+private val retrofit: Retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(MoshiConverterFactory.create(
+    moshi)).build()
+
 
 interface AmphibianApiService {
     // TODO: Declare a suspended function to get the list of amphibians
+    @GET(GET_AMPHIOBIANS)
+    suspend fun getAmphibains(): List<Amphibian>
 }
 
 // TODO: Create an object that provides a lazy-initialized retrofit service
+
+object AmphibainApi{
+    val retrofitService: AmphibianApiService by lazy {
+        retrofit.create(AmphibianApiService::class.java)
+    }
+}
 
